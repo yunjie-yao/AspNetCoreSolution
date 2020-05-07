@@ -1,6 +1,16 @@
-﻿@model YangXuASPNETCORE3._0.Models.Department
+﻿@using Microsoft.Extensions.Options
+@using YangXuASPNETCORE3._0
+@model YangXuASPNETCORE3._0.Models.Department
+@inject IOptions<ThreeOptions> options
 <tr>
+    @if (Model.EmployeeCount > options.Value.BoldDepartmentEmployeeCountThreshold)
+    {
+        <td><strong>@Model.Name</strong></td>
+    }
+    else
+    {
     <td>@Model.Name</td>
+    }
     <td>@Model.Location</td>
     <td>@Model.EmployeeCount</td>
     <td>

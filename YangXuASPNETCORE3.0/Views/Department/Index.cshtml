@@ -15,7 +15,11 @@
     </div>
 </div>
 <div class="row">
-    <div class="col-md-4 offset-md-2">
+    <div class="col-md-2">
+        @await Component.InvokeAsync("CompanySummary",new {title="哈哈哈哈"});
+        <vc:company-summary title="哈哈哈哈2"></vc:company-summary>
+    </div>
+    <div class="col-md-4">
         <a asp-action="Add">Add</a>
     </div>
 </div>

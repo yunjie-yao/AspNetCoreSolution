@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "E:\\CODE\\MyTestSln\\MyTestNetCore\\MyTestNetCore.csproj": {}
+    "E:\\CODE\\AspNetCoreSolution\\MyTestNetCore\\MyTestNetCore.csproj": {}
   },
   "projects": {
-    "E:\\CODE\\MyTestSln\\MyTestNetCore\\MyTestNetCore.csproj": {
+    "E:\\CODE\\AspNetCoreSolution\\MyTestNetCore\\MyTestNetCore.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "E:\\CODE\\MyTestSln\\MyTestNetCore\\MyTestNetCore.csproj",
+        "projectUniqueName": "E:\\CODE\\AspNetCoreSolution\\MyTestNetCore\\MyTestNetCore.csproj",
         "projectName": "MyTestNetCore",
-        "projectPath": "E:\\CODE\\MyTestSln\\MyTestNetCore\\MyTestNetCore.csproj",
+        "projectPath": "E:\\CODE\\AspNetCoreSolution\\MyTestNetCore\\MyTestNetCore.csproj",
         "packagesPath": "C:\\Users\\yaoyu\\.nuget\\packages\\",
-        "outputPath": "E:\\CODE\\MyTestSln\\MyTestNetCore\\obj\\",
+        "outputPath": "E:\\CODE\\AspNetCoreSolution\\MyTestNetCore\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\yaoyu\\AppData\\Roaming\\NuGet\\NuGet.Config",

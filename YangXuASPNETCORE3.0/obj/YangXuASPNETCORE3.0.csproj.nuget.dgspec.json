@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "E:\\CODE\\MyTestSln\\YangXuASPNETCORE3.0\\YangXuASPNETCORE3.0.csproj": {}
+    "E:\\CODE\\AspNetCoreSolution\\YangXuASPNETCORE3.0\\YangXuASPNETCORE3.0.csproj": {}
   },
   "projects": {
-    "E:\\CODE\\MyTestSln\\YangXuASPNETCORE3.0\\YangXuASPNETCORE3.0.csproj": {
+    "E:\\CODE\\AspNetCoreSolution\\YangXuASPNETCORE3.0\\YangXuASPNETCORE3.0.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "E:\\CODE\\MyTestSln\\YangXuASPNETCORE3.0\\YangXuASPNETCORE3.0.csproj",
+        "projectUniqueName": "E:\\CODE\\AspNetCoreSolution\\YangXuASPNETCORE3.0\\YangXuASPNETCORE3.0.csproj",
         "projectName": "YangXuASPNETCORE3.0",
-        "projectPath": "E:\\CODE\\MyTestSln\\YangXuASPNETCORE3.0\\YangXuASPNETCORE3.0.csproj",
+        "projectPath": "E:\\CODE\\AspNetCoreSolution\\YangXuASPNETCORE3.0\\YangXuASPNETCORE3.0.csproj",
         "packagesPath": "C:\\Users\\yaoyu\\.nuget\\packages\\",
-        "outputPath": "E:\\CODE\\MyTestSln\\YangXuASPNETCORE3.0\\obj\\",
+        "outputPath": "E:\\CODE\\AspNetCoreSolution\\YangXuASPNETCORE3.0\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\yaoyu\\AppData\\Roaming\\NuGet\\NuGet.Config",
