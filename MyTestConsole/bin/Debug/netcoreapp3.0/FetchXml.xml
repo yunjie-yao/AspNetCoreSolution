@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<fetch version="1.0" output-format="xml-platform" mapping="logical" distinct="false" count="5" page="2" returntotalrecordcount="true">
+  <entity name="new_obfapplication">
+    <attribute name="fullname" />
+    <attribute name="jobtitle" />
+    <attribute name="annualincome" />
+    <order attribute="new_name" descending="false" />
+    <filter type="and">
+      <condition attribute="statecode" operator="eq" value="0" />
+      <condition attribute="new_sc_shopid" operator="eq" value="00000000-0000-0000-0000-000000000000" />
+    </filter>
+  </entity>
+</fetch>
