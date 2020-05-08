@@ -18,11 +18,11 @@ namespace YangXuASPNETCORE3._0
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>
             Host.CreateDefaultBuilder(args)
-                .ConfigureAppConfiguration((context, configBuilder) =>
-                {
-                    configBuilder.Sources.Clear();//清除所有原配置文件，或者可以只清空一个特定的源（代码怎么写自己调查）
-                    configBuilder.AddJsonFile("other.json");//使用other.json这个配置文件
-                })
+                //.ConfigureAppConfiguration((context, configBuilder) =>
+                //{
+                //    configBuilder.Sources.Clear();//清除所有原配置文件，或者可以只清空一个特定的源（代码怎么写自己调查）
+                //    configBuilder.AddJsonFile("other.json");//使用other.json这个配置文件
+                //})
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
                     webBuilder.UseStartup<Startup>();
