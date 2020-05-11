@@ -9,7 +9,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyTestNetCore", "MyTestNetC
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "YangXuASPNETCORE3.0", "YangXuASPNETCORE3.0\YangXuASPNETCORE3.0.csproj", "{E2D362E5-4B07-48D3-8E62-63614FFF3819}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YangXuSignalR", "YangXuSingalR\YangXuSignalR.csproj", "{3791BF21-5A64-4F7C-944A-E6DF58B63BCD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "YangXuSignalR", "YangXuSingalR\YangXuSignalR.csproj", "{3791BF21-5A64-4F7C-944A-E6DF58B63BCD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YangXuAPI", "YangXuAPI\YangXuAPI.csproj", "{5ED564FD-8F1B-44CF-9D99-7A56DA7323FD}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{3791BF21-5A64-4F7C-944A-E6DF58B63BCD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3791BF21-5A64-4F7C-944A-E6DF58B63BCD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3791BF21-5A64-4F7C-944A-E6DF58B63BCD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5ED564FD-8F1B-44CF-9D99-7A56DA7323FD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5ED564FD-8F1B-44CF-9D99-7A56DA7323FD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5ED564FD-8F1B-44CF-9D99-7A56DA7323FD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5ED564FD-8F1B-44CF-9D99-7A56DA7323FD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

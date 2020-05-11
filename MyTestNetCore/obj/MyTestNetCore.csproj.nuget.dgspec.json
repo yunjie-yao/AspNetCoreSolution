@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "E:\\CODE\\AspNetCoreSolution\\MyTestNetCore\\MyTestNetCore.csproj": {}
+    "D:\\Code\\AspNetCoreSolution\\MyTestNetCore\\MyTestNetCore.csproj": {}
   },
   "projects": {
-    "E:\\CODE\\AspNetCoreSolution\\MyTestNetCore\\MyTestNetCore.csproj": {
+    "D:\\Code\\AspNetCoreSolution\\MyTestNetCore\\MyTestNetCore.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "E:\\CODE\\AspNetCoreSolution\\MyTestNetCore\\MyTestNetCore.csproj",
+        "projectUniqueName": "D:\\Code\\AspNetCoreSolution\\MyTestNetCore\\MyTestNetCore.csproj",
         "projectName": "MyTestNetCore",
-        "projectPath": "E:\\CODE\\AspNetCoreSolution\\MyTestNetCore\\MyTestNetCore.csproj",
-        "packagesPath": "C:\\Users\\yaoyu\\.nuget\\packages\\",
-        "outputPath": "E:\\CODE\\AspNetCoreSolution\\MyTestNetCore\\obj\\",
+        "projectPath": "D:\\Code\\AspNetCoreSolution\\MyTestNetCore\\MyTestNetCore.csproj",
+        "packagesPath": "C:\\Users\\Jerry.YAO\\.nuget\\packages\\",
+        "outputPath": "D:\\Code\\AspNetCoreSolution\\MyTestNetCore\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\yaoyu\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\Jerry.YAO\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -55,7 +55,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.0.100\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.201\\RuntimeIdentifierGraph.json"
         }
       }
     }
