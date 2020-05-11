@@ -8,3 +8,6 @@
 /MyTestConsole/bin
 /YangXuAPI/bin
 /YangXuAPI/obj
+/.vs
+obj
+bin
