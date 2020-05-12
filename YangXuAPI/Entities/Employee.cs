@@ -14,10 +14,4 @@ namespace YangXuAPI.Entities
         public Company Company { get; set; }
 
     }
-
-    public enum Gender
-    {
-        女=1,
-        男=2
-    }
 }

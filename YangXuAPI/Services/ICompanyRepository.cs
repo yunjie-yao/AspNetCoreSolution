@@ -16,7 +16,7 @@ namespace YangXuAPI.Services
         void DeleteCompany(Company company);
         Task<bool> CompanyExistsAsync(int companyId);
 
-        Task<IEnumerable<Employee>> GetEmployeesAsync();
+        Task<IEnumerable<Employee>> GetEmployeesAsync(int companyId);
         Task<Employee> GetEmployeeAsync(int companyId, int employeeId);
         void AddEmployee(int companyId, Employee employee);
         void UpdateEmployee(Employee employee);

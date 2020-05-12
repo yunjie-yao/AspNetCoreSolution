@@ -27,7 +27,7 @@ namespace YangXuAPI
                 }
                 catch (Exception e)
                 {
-                    var logger = scop.ServiceProvider.GetRequiredService<Logger<Program>>();
+                    var logger = scop.ServiceProvider.GetRequiredService<ILogger<Program>>();
                     logger.LogError(e,"DataBase Migration Error");
                 }
             }

@@ -88,9 +88,9 @@ namespace YangXuAPI.Services
             return await _context.Companies.AnyAsync(x => x.Id == companyId);
         }
 
-        public async Task<IEnumerable<Employee>> GetEmployeesAsync()
+        public async Task<IEnumerable<Employee>> GetEmployeesAsync(int companyId)
         {
-            return await _context.Employees.ToListAsync();
+            return await _context.Employees.Where(x => x.CompanyId == companyId).ToListAsync();
         }
 
         public async Task<Employee> GetEmployeeAsync(int companyId, int employeeId)
