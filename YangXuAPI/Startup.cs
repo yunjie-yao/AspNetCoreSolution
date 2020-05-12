@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -34,6 +35,8 @@ namespace YangXuAPI
                 //setup.OutputFormatters.Add(new XmlDataContractSerializerOutputFormatter());//1.添加xml输出,默认json
                 //setup.OutputFormatters.Insert(0,new XmlDataContractSerializerOutputFormatter());//2.xml插入到第0位置，表示更改默认输出为xml
             }).AddXmlDataContractSerializerFormatters();//3.core3.0之后最新的写法三种写法都可以
+
+            services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
             services.AddScoped<ICompanyRepository, CompanyRepository>();
 
