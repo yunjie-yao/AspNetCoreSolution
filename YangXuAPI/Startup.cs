@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Formatters;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -27,7 +28,12 @@ namespace YangXuAPI
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllers();
+            services.AddControllers(setup =>
+            {
+                setup.ReturnHttpNotAcceptable = true;
+                //setup.OutputFormatters.Add(new XmlDataContractSerializerOutputFormatter());//1.添加xml输出,默认json
+                //setup.OutputFormatters.Insert(0,new XmlDataContractSerializerOutputFormatter());//2.xml插入到第0位置，表示更改默认输出为xml
+            }).AddXmlDataContractSerializerFormatters();//3.core3.0之后最新的写法三种写法都可以
 
             services.AddScoped<ICompanyRepository, CompanyRepository>();
 
