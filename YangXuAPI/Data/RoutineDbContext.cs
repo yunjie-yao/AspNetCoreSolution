@@ -20,10 +20,14 @@ namespace YangXuAPI.Data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Company>()
+                .Property(x => x.Id).ValueGeneratedOnAdd();
+            modelBuilder.Entity<Company>()
                 .Property(x => x.Name).IsRequired().HasMaxLength(100);
             modelBuilder.Entity<Company>()
                 .Property(x => x.Introduction).HasMaxLength(500);
 
+            modelBuilder.Entity<Employee>()
+                .Property(x => x.Id).ValueGeneratedOnAdd();
             modelBuilder.Entity<Employee>()
                 .Property(x => x.EmployeeNo).IsRequired().HasMaxLength(10);
             modelBuilder.Entity<Employee>()
@@ -38,19 +42,19 @@ namespace YangXuAPI.Data
             modelBuilder.Entity<Company>().HasData(
                 new Company
                 {
-                    Id = Guid.Parse("5CB9BEC5-3CDF-41B2-A8F1-B37F53623422"),
+                    Id = 1,
                     Name = "Microsoft",
                     Introduction = "Software Company"
                 },
                 new Company
                 {
-                    Id = Guid.Parse("3FFADA32-54CB-4F8F-99F6-8E1596ED93D5"),
+                    Id = 2,
                     Name = "Google",
                     Introduction = "Great Company"
                 },
                 new Company
                 {
-                    Id=Guid.Parse("72E05F54-B1D9-4C93-A14D-2707A48BF71C"),
+                    Id=3,
                     Name="Alipapa",
                     Introduction="Mayunpapa"
                 });

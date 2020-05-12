@@ -29,7 +29,7 @@ namespace YangXuAPI
         {
             services.AddControllers();
 
-            services.AddSingleton<ICompanyRepository, CompanyRepository>();
+            services.AddScoped<ICompanyRepository, CompanyRepository>();
 
             services.AddDbContext<RoutineDbContext>(options =>
                 options.UseMySQL(Configuration.GetConnectionString("dbConn")));

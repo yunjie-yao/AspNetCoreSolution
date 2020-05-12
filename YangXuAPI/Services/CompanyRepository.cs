@@ -22,18 +22,18 @@ namespace YangXuAPI.Services
             return await _context.Companies.ToListAsync();
         }
 
-        public async Task<Company> GetCompanyAsync(Guid companyId)
+        public async Task<Company> GetCompanyAsync(int companyId)
         {
-            if (companyId==Guid.Empty)
-            {
-                throw new ArgumentNullException(nameof(companyId));
-            }
+            //if (companyId==Guid.Empty)
+            //{
+            //    throw new ArgumentNullException(nameof(companyId));
+            //}
 
             return await _context.Companies
                 .FirstOrDefaultAsync(x => x.Id == companyId);
         }
 
-        public async Task<IEnumerable<Company>> GetCompaniesAsync(IEnumerable<Guid> companyIds)
+        public async Task<IEnumerable<Company>> GetCompaniesAsync(IEnumerable<int> companyIds)
         {
             if (companyIds==null)
             {
@@ -53,11 +53,11 @@ namespace YangXuAPI.Services
                 throw new ArgumentNullException(nameof(company));
             }
 
-            company.Id=Guid.NewGuid();
+            //company.Id=Guid.NewGuid();
 
             foreach (var employee in company.Employees)
             {
-                employee.Id = Guid.NewGuid();
+                //employee.Id = Guid.NewGuid();
             }
 
             _context.Companies.Add(company);
@@ -78,12 +78,12 @@ namespace YangXuAPI.Services
             _context.Companies.Remove(company);
         }
 
-        public async Task<bool> CompanyExistsAsync(Guid companyId)
+        public async Task<bool> CompanyExistsAsync(int companyId)
         {
-            if (companyId==Guid.Empty)
-            {
-                throw new ArgumentNullException(nameof(companyId));
-            }
+            //if (companyId==Guid.Empty)
+            //{
+            //    throw new ArgumentNullException(nameof(companyId));
+            //}
 
             return await _context.Companies.AnyAsync(x => x.Id == companyId);
         }
@@ -93,28 +93,28 @@ namespace YangXuAPI.Services
             return await _context.Employees.ToListAsync();
         }
 
-        public async Task<Employee> GetEmployeeAsync(Guid companyId, Guid employeeId)
+        public async Task<Employee> GetEmployeeAsync(int companyId, int employeeId)
         {
-            if (companyId==Guid.Empty)
-            {
-                throw new ArgumentNullException(nameof(companyId));
-            }
-            if (employeeId == Guid.Empty)
-            {
-                throw new ArgumentNullException(nameof(employeeId));
-            }
+            //if (companyId==Guid.Empty)
+            //{
+            //    throw new ArgumentNullException(nameof(companyId));
+            //}
+            //if (employeeId == Guid.Empty)
+            //{
+            //    throw new ArgumentNullException(nameof(employeeId));
+            //}
 
             return await _context.Employees
                 .Where(x => x.CompanyId == companyId && x.Id == employeeId)
                 .FirstOrDefaultAsync();
         }
 
-        public void AddEmployee(Guid companyId, Employee employee)
+        public void AddEmployee(int companyId, Employee employee)
         {
-            if (companyId == Guid.Empty)
-            {
-                throw new ArgumentNullException(nameof(companyId));
-            }
+            //if (companyId == Guid.Empty)
+            //{
+            //    throw new ArgumentNullException(nameof(companyId));
+            //}
             if (employee == null)
             {
                 throw new ArgumentNullException(nameof(employee));
