@@ -55,11 +55,6 @@ namespace YangXuAPI.Services
 
             //company.Id=Guid.NewGuid();
 
-            foreach (var employee in company.Employees)
-            {
-                //employee.Id = Guid.NewGuid();
-            }
-
             _context.Companies.Add(company);
         }
 
