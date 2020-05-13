@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using YangXuAPI.DtoParameters;
 using YangXuAPI.Entities;
 using YangXuAPI.Models;
 using YangXuAPI.Services;
@@ -27,9 +28,11 @@ namespace YangXuAPI.Controllers
 
         // GET: api/Companies
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<CompanyDto>>> GetCompanies()
+        // Head:apo/companies
+        [HttpHead]
+        public async Task<ActionResult<IEnumerable<CompanyDto>>> GetCompanies([FromQuery]CompanyDtoParameters parameters)
         {
-            var companies = await _companyRepository.GetCompaniesAsync();
+            var companies = await _companyRepository.GetCompaniesAsync(parameters);
             //404 NotFound();
             var companyDtos = _mapper.Map<IEnumerable<CompanyDto>>(companies);
             return Ok(companyDtos);
@@ -37,7 +40,7 @@ namespace YangXuAPI.Controllers
         }
 
         // GET: api/Companies/5
-        [HttpGet("{companyId}")]
+        [HttpGet("{companyId}",Name = nameof(GetCompany))]
         public async Task<ActionResult<CompanyDto>> GetCompany(int companyId)
         {
             //先判断是否存在，存在再从数据库里查出来
@@ -57,25 +60,25 @@ namespace YangXuAPI.Controllers
             return Ok(_mapper.Map<CompanyDto>(company));
         }
 
-        // PUT: api/Companies/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for
-        // more details see https://aka.ms/RazorPagesCRUD.
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutCompany(int id, Company company)
-        {
-            
-            return NoContent();
-        }
-
-        // POST: api/Companies
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for
-        // more details see https://aka.ms/RazorPagesCRUD.
+        // Post api/companies
         [HttpPost]
-        public async Task<ActionResult<Company>> PostCompany(Company company)
+        public async Task<ActionResult<CompanyDto>> CreateCompany([FromBody]CompanyAddDto company)
         {
-            
+            if (company==null)
+            {
+                return BadRequest();
+            }
 
-            return CreatedAtAction("GetCompany", new { id = company.Id }, company);
+            var companyEntity = _mapper.Map<Company>(company);
+            _companyRepository.AddCompany(companyEntity);
+            await _companyRepository.SaveAsync();
+
+            var dto = _mapper.Map<CompanyDto>(companyEntity);
+
+            return CreatedAtRoute(nameof(GetCompany), new {CompanyId = dto.Id}, dto);
         }
+
+        
+
     }
 }

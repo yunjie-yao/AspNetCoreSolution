@@ -19,7 +19,7 @@ namespace YangXuAPI.Profies
                 .ForMember(dest => dest.Age,
                     opt => opt
                         .MapFrom(src => DateTime.Now.Year - src.DateOfBirth.Year));
-
+            CreateMap<EmployeeAddDto, Employee>();
 
         }
     }

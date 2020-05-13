@@ -2,8 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using YangXuAPI.Data;
+using YangXuAPI.DtoParameters;
 using YangXuAPI.Entities;
 
 namespace YangXuAPI.Services
@@ -17,9 +19,34 @@ namespace YangXuAPI.Services
                        throw new ArgumentNullException(nameof(context));
         }
 
-        public async Task<IEnumerable<Company>> GetCompaniesAsync()
+        public async Task<IEnumerable<Company>> GetCompaniesAsync(CompanyDtoParameters parameters)
         {
-            return await _context.Companies.ToListAsync();
+            if (parameters==null)
+            {
+                throw new ArgumentNullException(nameof(parameters));
+            }
+
+            if (string.IsNullOrWhiteSpace(parameters.CompanyName)
+               && string.IsNullOrWhiteSpace(parameters.SearchTerms))
+            {
+                return await _context.Companies.ToListAsync();
+            }
+
+            var queryExpression = _context.Companies as IQueryable<Company>;
+
+            if (!string.IsNullOrWhiteSpace(parameters.CompanyName))
+            {
+                queryExpression = queryExpression.Where(x => x.Name == parameters.CompanyName.Trim());
+            }
+
+            if (!string.IsNullOrWhiteSpace(parameters.SearchTerms))
+            {
+                var searchTerms = parameters.SearchTerms.Trim();
+                queryExpression = queryExpression.Where(x => x.Name.Contains(searchTerms)
+                                                             || x.Introduction.Contains(searchTerms));
+            }
+
+            return await queryExpression.ToListAsync();//此时才会查询数据库
         }
 
         public async Task<Company> GetCompanyAsync(int companyId)
@@ -83,9 +110,34 @@ namespace YangXuAPI.Services
             return await _context.Companies.AnyAsync(x => x.Id == companyId);
         }
 
-        public async Task<IEnumerable<Employee>> GetEmployeesAsync(int companyId)
+        public async Task<IEnumerable<Employee>> GetEmployeesAsync(int companyId,string genderDisplay,string search)
         {
-            return await _context.Employees.Where(x => x.CompanyId == companyId).ToListAsync();
+            if (string.IsNullOrWhiteSpace(genderDisplay)&&string.IsNullOrWhiteSpace(search))
+            {
+                return await _context.Employees.Where(x => x.CompanyId == companyId).ToListAsync();
+            }
+
+            var items = _context.Employees.Where(x => x.CompanyId == companyId);//走到这其实并没有操作Db相当于在拼接sql语句
+
+            if (!string.IsNullOrWhiteSpace(genderDisplay))
+            {
+                var genderStr = genderDisplay.Trim();
+                var gender = Enum.Parse<Gender>(genderStr);
+
+                items = items.Where(x => x.Gender == gender);
+
+                
+            }
+
+            if (!string.IsNullOrWhiteSpace(search))
+            {
+                search = search.Trim();
+                items = items.Where(x => x.LastName.Contains(search)
+                                         || x.FirstName.Contains(search)
+                                         || x.EmployeeNo.Contains(search));
+            }
+
+            return await items.OrderBy(x=>x.EmployeeNo).ToListAsync();
         }
 
         public async Task<Employee> GetEmployeeAsync(int companyId, int employeeId)
