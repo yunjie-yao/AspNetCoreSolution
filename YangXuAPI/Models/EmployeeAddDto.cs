@@ -9,6 +9,6 @@ namespace YangXuAPI.Models
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public Gender Gender { get; set; }
-        public DateTime BirthOfDate { get; set; }
+        public DateTime DateOfBirth { get; set; }
     }
 }
