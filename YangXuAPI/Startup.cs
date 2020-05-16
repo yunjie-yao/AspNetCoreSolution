@@ -3,6 +3,7 @@ using AutoMapper;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -25,11 +26,31 @@ namespace YangXuAPI
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers(setup =>
-            {
-                setup.ReturnHttpNotAcceptable = true;
-                //setup.OutputFormatters.Add(new XmlDataContractSerializerOutputFormatter());//1.添加xml输出,默认json
-                //setup.OutputFormatters.Insert(0,new XmlDataContractSerializerOutputFormatter());//2.xml插入到第0位置，表示更改默认输出为xml
-            }).AddXmlDataContractSerializerFormatters();//3.core3.0之后最新的写法三种写法都可以
+                {
+                    setup.ReturnHttpNotAcceptable = true;
+                    //setup.OutputFormatters.Add(new XmlDataContractSerializerOutputFormatter());//1.添加xml输出,默认json
+                    //setup.OutputFormatters.Insert(0,new XmlDataContractSerializerOutputFormatter());//2.xml插入到第0位置，表示更改默认输出为xml
+                }).AddXmlDataContractSerializerFormatters() //3.core3.0之后最新的写法三种写法都可以
+                .ConfigureApiBehaviorOptions(setup =>
+                {
+                    setup.InvalidModelStateResponseFactory = context =>
+                    {
+                        var problemDetails = new ValidationProblemDetails(context.ModelState)
+                        {
+                            Type = "http://www.baidu.com", //返回一个链接给用户，发生错误时点击查看
+                            Title = "又错了！！",
+                            Status = StatusCodes.Status422UnprocessableEntity,
+                            Detail = "请看详细信息",
+                            Instance = context.HttpContext.Request.Path
+                        };
+                        problemDetails.Extensions.Add("traceId", context.HttpContext.TraceIdentifier);
+
+                        return new UnprocessableEntityObjectResult(problemDetails)
+                        {
+                            ContentTypes = {"application/problem+json"}
+                        };
+                    };
+                });
 
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 

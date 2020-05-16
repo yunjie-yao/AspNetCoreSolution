@@ -55,7 +55,9 @@ namespace YangXuAPI.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<EmployeeDto>> CreateEmployeeForCompany(int companyId, EmployeeAddDto employee)
+        public async Task<ActionResult<EmployeeDto>> CreateEmployeeForCompany(
+            int companyId, 
+            EmployeeAddDto employee)
         {
             if (!await _companyRepository.CompanyExistsAsync(companyId))
             {
@@ -77,6 +79,44 @@ namespace YangXuAPI.Controllers
             return CreatedAtRoute(nameof(GetEmployeeFromCompany),
                 new {CompanyId = companyId, EmployeeId = returnDto.Id}, returnDto);
 
+        }
+
+        [HttpPut("{employeeId}")]
+        public async Task<IActionResult> UpdateEmployeeForCompany(
+            int companyId, int employeeId,
+            EmployeeUpdateDto employee)
+        {
+            if (!await _companyRepository.CompanyExistsAsync(companyId))
+            {
+                return NotFound();
+            }
+
+            var employeeEntity = await _companyRepository.GetEmployeeAsync(companyId, employeeId);
+            if (employeeEntity==null)
+            {
+                // 不存在进行创建
+                var employeeToAddEntity = _autoMapper.Map<Employee>(employee);
+                employeeToAddEntity.Id = employeeId;
+
+                _companyRepository.AddEmployee(companyId,employeeToAddEntity);
+                await _companyRepository.SaveAsync();
+
+                var dtoToReturn = _autoMapper.Map<EmployeeDto>(employeeToAddEntity);
+
+                return CreatedAtRoute(nameof(GetEmployeeFromCompany),
+                    new { CompanyId = companyId, EmployeeId = dtoToReturn.Id }, dtoToReturn);
+            }
+
+            // PUT
+            // entity->updateDto
+            // employee->updateDto
+            // updateDto->entity
+            _autoMapper.Map(employee, employeeEntity);
+
+            _companyRepository.UpdateEmployee(employeeEntity);
+            await _companyRepository.SaveAsync();
+
+            return NoContent();
         }
 
     }

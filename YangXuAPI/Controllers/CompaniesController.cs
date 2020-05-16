@@ -78,7 +78,12 @@ namespace YangXuAPI.Controllers
             return CreatedAtRoute(nameof(GetCompany), new {CompanyId = dto.Id}, dto);
         }
 
-        
+        [HttpOptions]
+        public IActionResult GetCompaniesOptions()
+        {
+            Response.Headers.Add("Allow","GET,POST,OPTIONS");
+            return Ok();
+        }
 
     }
 }

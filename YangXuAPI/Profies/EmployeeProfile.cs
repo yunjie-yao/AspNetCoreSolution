@@ -20,6 +20,7 @@ namespace YangXuAPI.Profies
                     opt => opt
                         .MapFrom(src => DateTime.Now.Year - src.DateOfBirth.Year));
             CreateMap<EmployeeAddDto, Employee>();
+            CreateMap<EmployeeUpdateDto, Employee>();
 
         }
     }
