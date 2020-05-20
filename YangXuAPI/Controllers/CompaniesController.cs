@@ -81,8 +81,23 @@ namespace YangXuAPI.Controllers
         [HttpOptions]
         public IActionResult GetCompaniesOptions()
         {
-            Response.Headers.Add("Allow","GET,POST,OPTIONS");
+            Response.Headers.Add("Allow","GET,POST,OPTIONS,DELETE");
             return Ok();
+        }
+
+        [HttpDelete("companyId")]
+        public async Task<IActionResult> DeleteCompany(int companyId)
+        {
+            var companyEntity = await _companyRepository.GetCompanyAsync(companyId);
+            if (companyEntity==null)
+            {
+                return NotFound();
+            }
+
+            _companyRepository.DeleteCompany(companyEntity);
+            await _companyRepository.SaveAsync();
+
+            return NoContent();
         }
 
     }

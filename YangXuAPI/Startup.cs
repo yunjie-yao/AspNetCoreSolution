@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Newtonsoft.Json.Serialization;
 using YangXuAPI.Data;
 using YangXuAPI.Services;
 
@@ -30,7 +31,12 @@ namespace YangXuAPI
                     setup.ReturnHttpNotAcceptable = true;
                     //setup.OutputFormatters.Add(new XmlDataContractSerializerOutputFormatter());//1.添加xml输出,默认json
                     //setup.OutputFormatters.Insert(0,new XmlDataContractSerializerOutputFormatter());//2.xml插入到第0位置，表示更改默认输出为xml
-                }).AddXmlDataContractSerializerFormatters() //3.core3.0之后最新的写法三种写法都可以
+                })
+                .AddNewtonsoftJson(setup =>
+                {
+                    setup.SerializerSettings.ContractResolver=new CamelCasePropertyNamesContractResolver();
+                })
+                .AddXmlDataContractSerializerFormatters() //3.core3.0之后最新的写法三种写法都可以
                 .ConfigureApiBehaviorOptions(setup =>
                 {
                     setup.InvalidModelStateResponseFactory = context =>
