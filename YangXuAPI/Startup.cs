@@ -57,7 +57,7 @@ namespace YangXuAPI
             services.AddScoped<ICompanyRepository, CompanyRepository>();
 
             services.AddDbContext<RoutineDbContext>(options =>
-                options.UseMySQL(Configuration.GetConnectionString("dbConn")));
+                options.UseMySQL(Configuration.GetConnectionString("dbconn")));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
