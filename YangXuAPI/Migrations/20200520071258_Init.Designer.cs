@@ -9,8 +9,8 @@ using YangXuAPI.Data;
 namespace YangXuAPI.Migrations
 {
     [DbContext(typeof(RoutineDbContext))]
-    [Migration("20200520061539_IntialMigration520")]
-    partial class IntialMigration520
+    [Migration("20200520071258_Init")]
+    partial class Init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
