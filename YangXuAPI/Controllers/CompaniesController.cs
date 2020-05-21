@@ -2,9 +2,12 @@
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
+using System.Text.Encodings.Web;
+using System.Text.Json;
 using System.Threading.Tasks;
 using YangXuAPI.DtoParameters;
 using YangXuAPI.Entities;
+using YangXuAPI.Helpers;
 using YangXuAPI.Models;
 using YangXuAPI.Services;
 
@@ -27,12 +30,36 @@ namespace YangXuAPI.Controllers
         }
 
         // GET: api/Companies
-        [HttpGet]
+        [HttpGet(Name = nameof(GetCompanies))]
         // Head:apo/companies
         [HttpHead]
-        public async Task<ActionResult<IEnumerable<CompanyDto>>> GetCompanies([FromQuery]CompanyDtoParameters parameters)
+        public async Task<ActionResult<IEnumerable<CompanyDto>>> GetCompanies(
+            [FromQuery]CompanyDtoParameters parameters)
         {
             var companies = await _companyRepository.GetCompaniesAsync(parameters);
+
+            var previousPageLink = companies.HasPrevious
+                ? CreateCompanyResourceUri(parameters, ResourceUriType.PreviousPage)
+                : null;
+            var nextPageLink = companies.HasNext
+                ? CreateCompanyResourceUri(parameters, ResourceUriType.NextPage)
+                : null;
+
+            var paginationMetedata = new
+            {
+                totalCount = companies.TotalCount,
+                totalPages = companies.TotalPages,
+                currentPage = companies.CurrentPage,
+                pageSize = companies.PageSize,
+                previousPageLink,
+                nextPageLink
+            };
+
+            Response.Headers.Add("X-Pagination",JsonSerializer.Serialize(paginationMetedata,new JsonSerializerOptions()
+            {
+                Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping//为了避免转义
+            }));
+
             //404 NotFound();
             var companyDtos = _mapper.Map<IEnumerable<CompanyDto>>(companies);
             return Ok(companyDtos);
@@ -85,7 +112,7 @@ namespace YangXuAPI.Controllers
             return Ok();
         }
 
-        [HttpDelete("companyId")]
+        [HttpDelete("{companyId}")]
         public async Task<IActionResult> DeleteCompany(int companyId)
         {
             var companyEntity = await _companyRepository.GetCompanyAsync(companyId);
@@ -100,5 +127,35 @@ namespace YangXuAPI.Controllers
             return NoContent();
         }
 
+        private string CreateCompanyResourceUri(CompanyDtoParameters parameters, ResourceUriType type)
+        {
+            switch (type)
+            {
+                case ResourceUriType.PreviousPage:
+                    return Url.Link(nameof(GetCompanies), new
+                    {
+                        pageNumber = parameters.PageNumber - 1,
+                        pageSize = parameters.PageSize,
+                        companyName = parameters.CompanyName,
+                        searchTerms = parameters.SearchTerms
+                    });
+                case ResourceUriType.NextPage:
+                    return Url.Link(nameof(GetCompanies), new
+                    {
+                        pageNumber = parameters.PageNumber + 1,
+                        pageSize = parameters.PageSize,
+                        companyName = parameters.CompanyName,
+                        searchTerms = parameters.SearchTerms
+                    });
+                default:
+                    return Url.Link(nameof(GetCompanies), new
+                    {
+                        pageNumber = parameters.PageNumber,
+                        pageSize = parameters.PageSize,
+                        companyName = parameters.CompanyName,
+                        searchTerms = parameters.SearchTerms
+                    });
+            }
+        }
     }
 }

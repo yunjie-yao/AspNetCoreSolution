@@ -2,12 +2,13 @@
 using System.Threading.Tasks;
 using YangXuAPI.DtoParameters;
 using YangXuAPI.Entities;
+using YangXuAPI.Helpers;
 
 namespace YangXuAPI.Services
 {
     public interface ICompanyRepository
     {
-        Task<IEnumerable<Company>> GetCompaniesAsync(CompanyDtoParameters parameters);
+        Task<PagedList<Company>> GetCompaniesAsync(CompanyDtoParameters parameters);
         Task<Company> GetCompanyAsync(int companyId);
         Task<IEnumerable<Company>> GetCompaniesAsync(IEnumerable<int> companyIds);
         void AddCompany(Company company);

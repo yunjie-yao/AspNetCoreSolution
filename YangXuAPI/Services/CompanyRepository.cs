@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using YangXuAPI.Data;
 using YangXuAPI.DtoParameters;
 using YangXuAPI.Entities;
+using YangXuAPI.Helpers;
 
 namespace YangXuAPI.Services
 {
@@ -18,17 +19,11 @@ namespace YangXuAPI.Services
                        throw new ArgumentNullException(nameof(context));
         }
 
-        public async Task<IEnumerable<Company>> GetCompaniesAsync(CompanyDtoParameters parameters)
+        public async Task<PagedList<Company>> GetCompaniesAsync(CompanyDtoParameters parameters)
         {
             if (parameters==null)
             {
                 throw new ArgumentNullException(nameof(parameters));
-            }
-
-            if (string.IsNullOrWhiteSpace(parameters.CompanyName)
-               && string.IsNullOrWhiteSpace(parameters.SearchTerms))
-            {
-                return await _context.Companies.ToListAsync();
             }
 
             var queryExpression = _context.Companies as IQueryable<Company>;
@@ -45,7 +40,8 @@ namespace YangXuAPI.Services
                                                              || x.Introduction.Contains(searchTerms));
             }
 
-            return await queryExpression.ToListAsync();//此时才会查询数据库
+            //return await queryExpression.ToListAsync();//此时才会查询数据库
+            return await PagedList<Company>.CreateAsync(queryExpression, parameters.PageNumber, parameters.PageSize);
         }
 
         public async Task<Company> GetCompanyAsync(int companyId)
