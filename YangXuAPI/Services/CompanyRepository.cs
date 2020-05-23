@@ -105,34 +105,38 @@ namespace YangXuAPI.Services
             return await _context.Companies.AnyAsync(x => x.Id == companyId);
         }
 
-        public async Task<IEnumerable<Employee>> GetEmployeesAsync(int companyId,string genderDisplay,string search)
+        public async Task<IEnumerable<Employee>> GetEmployeesAsync(int companyId,EmployeeDtoParameters parameters)
         {
-            if (string.IsNullOrWhiteSpace(genderDisplay)&&string.IsNullOrWhiteSpace(search))
-            {
-                return await _context.Employees.Where(x => x.CompanyId == companyId).ToListAsync();
-            }
-
             var items = _context.Employees.Where(x => x.CompanyId == companyId);//走到这其实并没有操作Db相当于在拼接sql语句
 
-            if (!string.IsNullOrWhiteSpace(genderDisplay))
+            if (!string.IsNullOrWhiteSpace(parameters.Gender))
             {
-                var genderStr = genderDisplay.Trim();
+                var genderStr = parameters.Gender.Trim();
                 var gender = Enum.Parse<Gender>(genderStr);
 
                 items = items.Where(x => x.Gender == gender);
-
-                
             }
 
-            if (!string.IsNullOrWhiteSpace(search))
+            if (!string.IsNullOrWhiteSpace(parameters.SearchTerms))
             {
-                search = search.Trim();
+                var search = parameters.SearchTerms.Trim();
                 items = items.Where(x => x.LastName.Contains(search)
                                          || x.FirstName.Contains(search)
                                          || x.EmployeeNo.Contains(search));
             }
 
-            return await items.OrderBy(x=>x.EmployeeNo).ToListAsync();
+            //if (!string.IsNullOrWhiteSpace(parameters.OrderBy))
+            //{
+            //    //简单粗暴的排序
+            //    if (parameters.OrderBy.ToLowerInvariant()=="name")
+            //    {
+            //        items = items.OrderBy(x => x.FirstName).ThenBy(x => x.LastName);
+            //    }
+                
+            //}
+            //items = items.ApplySort(parameters.OrderBy, mappingDictionary);
+
+            return await items.ToListAsync();
         }
 
         public async Task<Employee> GetEmployeeAsync(int companyId, int employeeId)

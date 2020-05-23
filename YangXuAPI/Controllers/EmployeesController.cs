@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
+using YangXuAPI.DtoParameters;
 using YangXuAPI.Entities;
 using YangXuAPI.Models;
 using YangXuAPI.Services;
@@ -28,15 +29,14 @@ namespace YangXuAPI.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<EmployeeDto>>> GetEmployeesFromCompany(
             [FromRoute] int companyId
-            ,[FromQuery(Name = "gender")]string genderDisplay
-            ,string search)
+            ,[FromQuery] EmployeeDtoParameters parameters)
         {
             if (!await _companyRepository.CompanyExistsAsync(companyId))
             {
                 return NotFound();
             }
 
-            var employees = await _companyRepository.GetEmployeesAsync(companyId, genderDisplay, search);
+            var employees = await _companyRepository.GetEmployeesAsync(companyId, parameters);
             var employeeDtos = _autoMapper.Map<IEnumerable<EmployeeDto>>(employees);
             return Ok(employeeDtos);
         }
