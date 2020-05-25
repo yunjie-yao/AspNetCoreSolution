@@ -7,16 +7,21 @@ using YangXuAPI.Data;
 using YangXuAPI.DtoParameters;
 using YangXuAPI.Entities;
 using YangXuAPI.Helpers;
+using YangXuAPI.Models;
 
 namespace YangXuAPI.Services
 {
     public class CompanyRepository:ICompanyRepository
     {
         private readonly RoutineDbContext _context;
-        public CompanyRepository(RoutineDbContext context)
+        private readonly IPropertyMappingService _propertyMappingService;
+
+        public CompanyRepository(RoutineDbContext context,IPropertyMappingService propertyMappingService)
         {
-            _context = context ??
+            _context = context ?? 
                        throw new ArgumentNullException(nameof(context));
+            _propertyMappingService = propertyMappingService ??
+                              throw new ArgumentNullException(nameof(propertyMappingService));
         }
 
         public async Task<PagedList<Company>> GetCompaniesAsync(CompanyDtoParameters parameters)
@@ -39,6 +44,9 @@ namespace YangXuAPI.Services
                 queryExpression = queryExpression.Where(x => x.Name.Contains(searchTerms)
                                                              || x.Introduction.Contains(searchTerms));
             }
+
+            var mappingDictionary = _propertyMappingService.GetPropertyMapping<CompanyDto, Company>();
+            queryExpression = queryExpression.ApplySort(parameters.OrderBy, mappingDictionary);
 
             //return await queryExpression.ToListAsync();//此时才会查询数据库
             return await PagedList<Company>.CreateAsync(queryExpression, parameters.PageNumber, parameters.PageSize);
@@ -132,9 +140,12 @@ namespace YangXuAPI.Services
             //    {
             //        items = items.OrderBy(x => x.FirstName).ThenBy(x => x.LastName);
             //    }
-                
+
             //}
-            //items = items.ApplySort(parameters.OrderBy, mappingDictionary);
+
+            // 排序应该在分页之前
+            var mappingDictionary = _propertyMappingService.GetPropertyMapping<EmployeeDto, Employee>();
+            items = items.ApplySort(parameters.OrderBy, mappingDictionary);
 
             return await items.ToListAsync();
         }

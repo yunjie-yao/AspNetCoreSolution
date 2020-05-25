@@ -64,6 +64,8 @@ namespace YangXuAPI
 
             services.AddDbContext<RoutineDbContext>(options =>
                 options.UseMySQL(Configuration.GetConnectionString("dbconn")));
+
+            services.AddTransient<IPropertyMappingService, PropertyMappingService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
