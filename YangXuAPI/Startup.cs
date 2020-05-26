@@ -1,5 +1,6 @@
 using System;
 using AutoMapper;
+using Marvin.Cache.Headers;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -26,11 +27,28 @@ namespace YangXuAPI
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddHttpCacheHeaders(expires =>
+            {
+                expires.MaxAge = 60;
+                expires.CacheLocation = CacheLocation.Private;
+            }, validation =>
+            {
+                validation.MustRevalidate = true; 
+
+            });
+
+            services.AddResponseCaching();
             services.AddControllers(setup =>
                 {
                     setup.ReturnHttpNotAcceptable = true;
                     //setup.OutputFormatters.Add(new XmlDataContractSerializerOutputFormatter());//1.添加xml输出,默认json
                     //setup.OutputFormatters.Insert(0,new XmlDataContractSerializerOutputFormatter());//2.xml插入到第0位置，表示更改默认输出为xml
+
+                    //定义一个全局CacheProfile
+                    setup.CacheProfiles.Add("120sCacheProfiles",new CacheProfile()
+                    {
+                        Duration = 120
+                    });
                 })
                 .AddNewtonsoftJson(setup =>
                 {
@@ -88,6 +106,10 @@ namespace YangXuAPI
                 });
             }
 
+            // 微软的这个中间件没有实现验证模型
+            //app.UseResponseCaching();
+
+            app.UseHttpCacheHeaders();
 
             app.UseRouting();
 

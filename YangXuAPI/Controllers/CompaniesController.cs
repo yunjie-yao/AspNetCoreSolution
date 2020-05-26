@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Text.Encodings.Web;
 using System.Text.Json;
 using System.Threading.Tasks;
+using Microsoft.Net.Http.Headers;
 using YangXuAPI.DtoParameters;
 using YangXuAPI.Entities;
 using YangXuAPI.Helpers;
@@ -78,7 +79,8 @@ namespace YangXuAPI.Controllers
 
         // GET: api/Companies/5
         [HttpGet("{companyId}",Name = nameof(GetCompany))]
-        public async Task<ActionResult<CompanyDto>> GetCompany(int companyId)
+        public async Task<ActionResult<CompanyDto>> GetCompany(
+            int companyId,[FromHeader(Name = "Accept")] string mediaType)
         {
             //先判断是否存在，存在再从数据库里查出来
             //这种方法在并发量大的情况下可能会出问题，exist的时候存在，但是再执行下面查的时候恰好被其他请求删掉了，就可能会出错
@@ -86,6 +88,10 @@ namespace YangXuAPI.Controllers
             //{
             //    return NotFound();
             //}
+            if (MediaTypeHeaderValue.TryParse(mediaType,out MediaTypeHeaderValue parsedMediaType))
+            {
+                return BadRequest();
+            }
 
             var company = await _companyRepository.GetCompanyAsync(companyId);
             if (company==null)

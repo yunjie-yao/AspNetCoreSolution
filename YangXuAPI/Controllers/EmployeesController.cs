@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using AutoMapper;
+using Marvin.Cache.Headers;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
@@ -15,6 +16,8 @@ namespace YangXuAPI.Controllers
 {
     [Route("api/companies/{companyId}/employees")]
     [ApiController]
+    //[ResponseCache(CacheProfileName = "120sCacheProfiles")]
+    [HttpCacheExpiration(CacheLocation = CacheLocation.Public)]
     public class EmployeesController : ControllerBase
     {
         private readonly IMapper _autoMapper;
@@ -42,6 +45,9 @@ namespace YangXuAPI.Controllers
         }
 
         [HttpGet("{employeeId}",Name = nameof(GetEmployeeFromCompany))]
+        //[ResponseCache(Duration = 60)]
+        [HttpCacheExpiration(CacheLocation = CacheLocation.Public,MaxAge = 1800)]
+        [HttpCacheValidation(MustRevalidate = true)]
         public async Task<ActionResult<EmployeeDto>> GetEmployeeFromCompany(int companyId,int employeeId)
         {
             if (!await _companyRepository.CompanyExistsAsync(companyId))
