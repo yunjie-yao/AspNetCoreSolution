@@ -18,6 +18,7 @@ namespace YangXuAPI.Controllers
     [ApiController]
     //[ResponseCache(CacheProfileName = "120sCacheProfiles")]
     [HttpCacheExpiration(CacheLocation = CacheLocation.Public)]
+    [HttpCacheValidation(MustRevalidate = true)]
     public class EmployeesController : ControllerBase
     {
         private readonly IMapper _autoMapper;
@@ -47,7 +48,7 @@ namespace YangXuAPI.Controllers
         [HttpGet("{employeeId}",Name = nameof(GetEmployeeFromCompany))]
         //[ResponseCache(Duration = 60)]
         [HttpCacheExpiration(CacheLocation = CacheLocation.Public,MaxAge = 1800)]
-        [HttpCacheValidation(MustRevalidate = true)]
+        [HttpCacheValidation(MustRevalidate = false)]
         public async Task<ActionResult<EmployeeDto>> GetEmployeeFromCompany(int companyId,int employeeId)
         {
             if (!await _companyRepository.CompanyExistsAsync(companyId))

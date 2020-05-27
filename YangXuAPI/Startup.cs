@@ -33,6 +33,7 @@ namespace YangXuAPI
                 expires.CacheLocation = CacheLocation.Private;
             }, validation =>
             {
+                // 缓存过期，必须重新验证
                 validation.MustRevalidate = true; 
 
             });
@@ -107,7 +108,7 @@ namespace YangXuAPI
             }
 
             // 微软的这个中间件没有实现验证模型
-            //app.UseResponseCaching();
+            // app.UseResponseCaching();
 
             app.UseHttpCacheHeaders();
 
