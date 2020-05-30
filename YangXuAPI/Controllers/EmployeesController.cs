@@ -18,8 +18,8 @@ namespace YangXuAPI.Controllers
     [Route("api/companies/{companyId}/employees")]
     [ApiController]
     //[ResponseCache(CacheProfileName = "120sCacheProfiles")]
-    [HttpCacheExpiration(CacheLocation = CacheLocation.Public)]
-    [HttpCacheValidation(MustRevalidate = true)]
+    //[HttpCacheExpiration(CacheLocation = CacheLocation.Public)]
+    //[HttpCacheValidation(MustRevalidate = true)]
     public class EmployeesController : ControllerBase
     {
         private readonly IMapper _autoMapper;

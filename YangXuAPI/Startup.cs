@@ -46,6 +46,7 @@ namespace YangXuAPI
                         ValidIssuer = token.Issuer,
                         ValidateIssuer = true,
                         ValidateAudience = false,
+                        ValidateLifetime = true
                     };
                 });
             services.AddHttpCacheHeaders(expires =>
