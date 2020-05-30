@@ -1,6 +1,8 @@
 using System;
+using System.Text;
 using AutoMapper;
 using Marvin.Cache.Headers;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -9,8 +11,10 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json.Serialization;
 using YangXuAPI.Data;
+using YangXuAPI.DtoParameters;
 using YangXuAPI.Services;
 
 namespace YangXuAPI
@@ -27,6 +31,23 @@ namespace YangXuAPI
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                .AddJwtBearer(options =>
+                {
+                    options.RequireHttpsMetadata = false;
+                    options.SaveToken = true;
+
+                    var token = Configuration.GetSection("TokenParameter")
+                        .Get<TokenDtoParameter>();
+                    options.TokenValidationParameters = new TokenValidationParameters
+                    {
+                        ValidateIssuerSigningKey = true,
+                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(token.Secret)),
+                        ValidIssuer = token.Issuer,
+                        ValidateIssuer = true,
+                        ValidateAudience = false,
+                    };
+                });
             services.AddHttpCacheHeaders(expires =>
             {
                 expires.MaxAge = 60;
@@ -113,6 +134,8 @@ namespace YangXuAPI
             app.UseHttpCacheHeaders();
 
             app.UseRouting();
+
+            app.UseAuthentication();
 
             app.UseAuthorization();
 

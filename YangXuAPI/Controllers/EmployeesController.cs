@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using AutoMapper;
 using Marvin.Cache.Headers;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
@@ -31,6 +32,8 @@ namespace YangXuAPI.Controllers
         }
 
         [HttpGet]
+        //[Authorize]
+        [Authorize(Roles = "test")]
         public async Task<ActionResult<IEnumerable<EmployeeDto>>> GetEmployeesFromCompany(
             [FromRoute] int companyId
             ,[FromQuery] EmployeeDtoParameters parameters)
