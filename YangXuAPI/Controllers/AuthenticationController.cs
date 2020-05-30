@@ -1,12 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
-using System.Linq;
 using System.Security.Claims;
 using System.Text;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using YangXuAPI.DtoParameters;
@@ -18,7 +14,7 @@ namespace YangXuAPI.Controllers
     [Route("api/authentication")]
     public class AuthenticationController:ControllerBase
     {
-        private readonly TokenDtoParameter _tokenParameter=new TokenDtoParameter();
+        private readonly TokenDtoParameter _tokenParameter;
         public AuthenticationController(IConfiguration configuration)
         {
             var tokenParameter =
@@ -76,12 +72,10 @@ namespace YangXuAPI.Controllers
                 return Ok(new {token, refreshToken});
 
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 return BadRequest("Invalid RefreshTokenRequest");
             }
-
-            return Ok();
         }
 
         private string GenerateToken(string userName, string roleName)
