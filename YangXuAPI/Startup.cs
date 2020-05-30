@@ -46,7 +46,9 @@ namespace YangXuAPI
                         ValidIssuer = token.Issuer,
                         ValidateIssuer = true,
                         ValidateAudience = false,
-                        ValidateLifetime = true
+                        ValidateLifetime = true,
+                        // 不设置默认会有5min的缓冲时间，也就是真正的过期时间=自己设置的expired+5
+                        ClockSkew = TimeSpan.Zero
                     };
                 });
             services.AddHttpCacheHeaders(expires =>

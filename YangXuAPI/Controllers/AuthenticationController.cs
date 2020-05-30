@@ -33,7 +33,7 @@ namespace YangXuAPI.Controllers
             }
 
             // 生成Token和RefreshToken
-            var token = GenerateToken(login.UserName, "test");
+            var token = GenerateToken(login.UserName, "test1");
             var refreshToken = "refreshToken";
             return Ok(new {token,refreshToken});
         }
@@ -83,13 +83,15 @@ namespace YangXuAPI.Controllers
             var claims = new[]
             {
                 new Claim(ClaimTypes.Name, userName),
-                new Claim(ClaimTypes.Role, roleName)
+                new Claim(ClaimTypes.Role, roleName),
+                //new Claim(JwtRegisteredClaimNames.Nbf,$"{new DateTimeOffset(DateTime.Now).ToUnixTimeMilliseconds()}"),
+                //new Claim(JwtRegisteredClaimNames.Exp,$"{new DateTimeOffset(DateTime.Now.AddMinutes(_tokenParameter.AccessExpiration)).ToUnixTimeMilliseconds()}"), 
             };
 
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_tokenParameter.Secret));
             var credentials=new SigningCredentials(key,SecurityAlgorithms.HmacSha256);
             var jwtToken = new JwtSecurityToken(
-                _tokenParameter.Issuer,
+                issuer:_tokenParameter.Issuer,
                 null,
                 claims,
                 expires: DateTime.Now.AddMinutes(_tokenParameter.AccessExpiration),

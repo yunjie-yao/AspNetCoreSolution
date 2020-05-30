@@ -33,7 +33,7 @@ namespace YangXuAPI.Controllers
 
         [HttpGet]
         //[Authorize]
-        [Authorize(Roles = "test")]
+        [Authorize(Roles = "test,test1")]//多个角色用逗号分开
         public async Task<ActionResult<IEnumerable<EmployeeDto>>> GetEmployeesFromCompany(
             [FromRoute] int companyId
             ,[FromQuery] EmployeeDtoParameters parameters)
