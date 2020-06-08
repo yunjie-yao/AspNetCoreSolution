@@ -12,6 +12,7 @@ using YangXuAPI.DtoParameters;
 using YangXuAPI.Entities;
 using YangXuAPI.Models;
 using YangXuAPI.Services;
+using Microsoft.Extensions.Logging;
 
 namespace YangXuAPI.Controllers
 {
@@ -24,11 +25,13 @@ namespace YangXuAPI.Controllers
     {
         private readonly IMapper _autoMapper;
         private readonly ICompanyRepository _companyRepository;
+        private readonly ILogger<EmployeesController> _logger;
 
-        public EmployeesController(IMapper autoMapper,ICompanyRepository companyRepository)
+        public EmployeesController(IMapper autoMapper,ICompanyRepository companyRepository,ILogger<EmployeesController> logger)
         {
             _autoMapper = autoMapper;
             _companyRepository = companyRepository;
+            _logger = logger;
         }
 
         [HttpGet]
@@ -54,6 +57,10 @@ namespace YangXuAPI.Controllers
         [HttpCacheValidation(MustRevalidate = false)]
         public async Task<ActionResult<EmployeeDto>> GetEmployeeFromCompany(int companyId,int employeeId)
         {
+            _logger.LogInformation($"{nameof(GetEmployeeFromCompany)}/Input,companyId={companyId},employeeId={employeeId}");
+            _logger.LogWarning($"{nameof(GetEmployeeFromCompany)}/Input,companyId={companyId},employeeId={employeeId}");
+            _logger.LogTrace($"{nameof(GetEmployeeFromCompany)}/Input,companyId={companyId},employeeId={employeeId}");
+            _logger.LogError($"{nameof(GetEmployeeFromCompany)}/Input,companyId={companyId},employeeId={employeeId}");
             if (!await _companyRepository.CompanyExistsAsync(companyId))
             {
                 return NotFound();
