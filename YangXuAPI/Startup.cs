@@ -1,20 +1,11 @@
 using System;
-using System.Text;
 using AutoMapper;
-using Marvin.Cache.Headers;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.IdentityModel.Tokens;
-using Newtonsoft.Json.Serialization;
-using YangXuAPI.Data;
-using YangXuAPI.DtoParameters;
 using YangXuAPI.Helpers;
 using YangXuAPI.Services;
 
@@ -52,6 +43,7 @@ namespace YangXuAPI
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            app.UseResponseTimeMiddleware();
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
