@@ -1,5 +1,6 @@
 using System;
 using AutoMapper;
+using FluentValidation;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -7,6 +8,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using YangXuAPI.Helpers;
+using YangXuAPI.Models;
 using YangXuAPI.Services;
 
 namespace YangXuAPI
@@ -40,6 +42,8 @@ namespace YangXuAPI
             services.ConfigureMySqlDbContext(Configuration);
             
             services.AddTransient<IPropertyMappingService, PropertyMappingService>();
+
+            services.AddTransient<IValidator<CompanyAddDto>, CompanyAddDtoValidation>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -70,9 +74,9 @@ namespace YangXuAPI
 
             app.UseRouting();
 
-            app.UseAuthentication();
+            //app.UseAuthentication();
 
-            app.UseAuthorization();
+            //app.UseAuthorization();
 
             app.UseSwagger();
             app.UseSwaggerUI(setup =>

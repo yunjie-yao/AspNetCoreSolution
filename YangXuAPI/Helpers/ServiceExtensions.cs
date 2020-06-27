@@ -9,6 +9,7 @@ using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json.Serialization;
 using System;
 using System.Text;
+using FluentValidation.AspNetCore;
 using Microsoft.OpenApi.Models;
 using YangXuAPI.Data;
 using YangXuAPI.DtoParameters;
@@ -76,6 +77,7 @@ namespace YangXuAPI.Helpers
                     Duration = 120
                 });
             })
+                .AddFluentValidation()
                 .AddNewtonsoftJson(setup =>
                 {
                     setup.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
@@ -128,7 +130,7 @@ namespace YangXuAPI.Helpers
                         },
                         License = new OpenApiLicense
                         {
-                            Name = "许可证名称",
+                            Name = "倒不了的西恩塔",
                             Url = new Uri("https://www.cnblogs.com/cndota2/")
                         }
                     });
