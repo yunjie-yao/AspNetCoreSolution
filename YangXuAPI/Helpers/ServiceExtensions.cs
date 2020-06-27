@@ -9,6 +9,7 @@ using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json.Serialization;
 using System;
 using System.Text;
+using Microsoft.OpenApi.Models;
 using YangXuAPI.Data;
 using YangXuAPI.DtoParameters;
 
@@ -106,6 +107,32 @@ namespace YangXuAPI.Helpers
         {
             services.AddDbContext<RoutineDbContext>(options =>
                 options.UseMySQL(configuration.GetConnectionString("dbconn")));
+        }
+
+        public static void ConfigureSwagger(this IServiceCollection service)
+        {
+            service.AddSwaggerGen(options =>
+            {
+                options.SwaggerDoc("v1", 
+                    new OpenApiInfo
+                    {
+                        Title = "YangXuAPI", 
+                        Version = "V1",
+                        Description = "A Simple Demo",
+                        TermsOfService = null,
+                        Contact = new OpenApiContact
+                        {
+                            Name = "yunjie.yao",
+                            Email = "",
+                            Url = new Uri("https://www.cnblogs.com/cndota2/")
+                        },
+                        License = new OpenApiLicense
+                        {
+                            Name = "许可证名称",
+                            Url = new Uri("https://www.cnblogs.com/cndota2/")
+                        }
+                    });
+            });
         }
     }
 }

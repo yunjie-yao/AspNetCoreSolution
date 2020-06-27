@@ -30,6 +30,8 @@ namespace YangXuAPI
             services.ConfigureResponseCaching();
 
             services.ConfigureControllers();
+
+            services.ConfigureSwagger();
             
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
@@ -71,6 +73,12 @@ namespace YangXuAPI
             app.UseAuthentication();
 
             app.UseAuthorization();
+
+            app.UseSwagger();
+            app.UseSwaggerUI(setup =>
+            {
+                setup.SwaggerEndpoint("/swagger/v1/swagger.json", "YangXuAPI V1");
+            });
 
             app.UseEndpoints(endpoints =>
             {
