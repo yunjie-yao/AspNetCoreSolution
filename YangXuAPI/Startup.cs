@@ -74,9 +74,9 @@ namespace YangXuAPI
 
             app.UseRouting();
 
-            //app.UseAuthentication();
+            app.UseAuthentication();
 
-            //app.UseAuthorization();
+            app.UseAuthorization();
 
             app.UseSwagger();
             app.UseSwaggerUI(setup =>
