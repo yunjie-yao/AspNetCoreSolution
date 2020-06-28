@@ -57,10 +57,11 @@ namespace YangXuAPI.Controllers
         [HttpCacheValidation(MustRevalidate = false)]
         public async Task<ActionResult<EmployeeDto>> GetEmployeeFromCompany(int companyId,int employeeId)
         {
-            _logger.LogInformation($"{nameof(GetEmployeeFromCompany)}/Input,companyId={companyId},employeeId={employeeId}");
-            _logger.LogWarning($"{nameof(GetEmployeeFromCompany)}/Input,companyId={companyId},employeeId={employeeId}");
-            _logger.LogTrace($"{nameof(GetEmployeeFromCompany)}/Input,companyId={companyId},employeeId={employeeId}");
-            _logger.LogError($"{nameof(GetEmployeeFromCompany)}/Input,companyId={companyId},employeeId={employeeId}");
+            _logger.LogTrace("log trace");
+            _logger.LogDebug("log debug");
+            _logger.LogInformation("log information");
+            _logger.LogWarning("log warn");
+            _logger.LogError("log error");
             if (!await _companyRepository.CompanyExistsAsync(companyId))
             {
                 return NotFound();
